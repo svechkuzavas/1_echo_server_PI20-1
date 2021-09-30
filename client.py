@@ -1,12 +1,11 @@
-import socket
-from time import sleep
+from socket import *
+import sys
+addr=('localhost', 9090)
+udp_sock=socket(AF_INET, SOCK_DGRAM)
 
-sock = socket.socket()
-sock.setblocking(1)
-sock.connect(('localhost', 9090))
-msg=''
-while msg != 'close':
-	msg = input('Your message: ')
-	sock.send(msg.encode())
-	data = sock.recv(1024)
-sock.close()
+while True:
+	data = input('text message to the server: ')
+	data = str.encode(data)
+	udp_sock.sendto(data, addr)
+	data = bytes.decode(data)
+udp_sock.close()
